@@ -1,6 +1,9 @@
 package com.driver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -8,6 +11,8 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
+@Data
+@AllArgsConstructor
 public class Transaction {
 
     @Id
@@ -36,5 +41,16 @@ public class Transaction {
 
     @CreationTimestamp
     private Date transactionDate;
+
+    public Transaction(){
+
+    }
+
+    public Transaction(Card card, Book book, boolean i) {
+        this.setCard(card);
+        this.setBook(book);
+        this.setIssueOperation(i);
+        this.setTransactionStatus(TransactionStatus.SUCCESSFUL);
+    }
 }
 

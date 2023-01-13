@@ -17,10 +17,19 @@ public class CardService {
     public Card createAndReturn(Student student){
         Card card = null;
         //link student with a new card
+        card = new Card();
+        card.setCardStatus(CardStatus.ACTIVATED);
+        card.setStudent(student);
         return card;
     }
 
     public void deactivateCard(int student_id){
         cardRepository3.deactivateCard(student_id, CardStatus.DEACTIVATED.toString());
+    }
+
+    public Card updateCard(int cardId,Student student) {
+        Card card = cardRepository3.findById(cardId).get();
+        card.setStudent(student);
+        return card;
     }
 }

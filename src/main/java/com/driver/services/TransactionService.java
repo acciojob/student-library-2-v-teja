@@ -1,5 +1,7 @@
 package com.driver.services;
 
+import com.driver.models.Book;
+import com.driver.models.Card;
 import com.driver.models.Transaction;
 import com.driver.models.TransactionStatus;
 import com.driver.repositories.BookRepository;
@@ -44,8 +46,55 @@ public class TransactionService {
         //If the transaction is successful, save the transaction to the list of transactions and return the id
 
         //Note that the error message should match exactly in all cases
+        Transaction transaction;
+        try {
+            boolean bookExists = bookRepository5.existsById(bookId);
+            boolean cardExists = cardRepository5.existsById(cardId);
+            //condition 1;
+            if (bookExists != true) {
+                throw new Exception("Book is either unavailable or not present");
+            } else {
+                Book book = bookRepository5.findById(bookId).get();
+                if (!book.isAvailable()) {
+                    throw new Exception("Book is either unavailable or not present");
+                }
+            }
+            //condition 2;
+            if (cardExists != true) {
+                throw new Exception("Card is invalid");
+            } else {
+                Card card = cardRepository5.findById(cardId).get();
+                String res = String.valueOf(card.getCardStatus());
+                if (!res.equals("ACTIVATED")) {
+                    throw new Exception("Card is invalid");
+                }
+            }
+            //condition 3
+            Card card = cardRepository5.findById(cardId).get();
+            if (card.getBooks().size() >= max_allowed_books) {
+                throw new Exception("Book limit has reached for this card");
+            }
+            //condition 4
+            Book book = bookRepository5.findById(bookId).get();
+            transaction = new Transaction(card, book, true);
 
-       return null; //return transactionId instead
+            List<Transaction> currTransactionList = book.getTransactions();
+            currTransactionList.add(transaction);
+            book.setTransactions(currTransactionList);
+            //book is parent so transaction should automatically save
+
+            List<Book> currList = card.getBooks();
+            currList.add(book);
+            card.setBooks(currList);
+            cardRepository5.save(card);
+            //card is parent to book so book is automatically saved
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return transaction.getTransactionId(); //return transactionId instead
     }
 
     public Transaction returnBook(int cardId, int bookId) throws Exception{
