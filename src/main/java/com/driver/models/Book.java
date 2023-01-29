@@ -9,13 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Builder
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -35,7 +33,7 @@ public class Book {
     @Column(columnDefinition = "TINYINT(1)")
     private boolean available;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("book")
     private List<Transaction> transactions;
 
@@ -93,25 +91,6 @@ public class Book {
 
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
-    }
-
-    public Book(int id, String name, Genre genre, Author author, Card card,
-                boolean available, List<Transaction> transactions) {
-        this.id = id;
-        this.name = name;
-        this.genre = genre;
-        this.author = author;
-        this.card = card;
-        this.available = available;
-        this.transactions = transactions;
-    }
-
-    public Book(String name, Genre genre, Author author, Card card, boolean available) {
-        this.name = name;
-        this.genre = genre;
-        this.author = author;
-        this.card = card;
-        this.available = available;
     }
 
     public Book() {

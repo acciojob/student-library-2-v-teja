@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Builder
 public class Author {
 
     @Id
@@ -24,7 +23,7 @@ public class Author {
     private int age;
     private String country;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("author")
     private List<Book> booksWritten;
     public int getId() {
@@ -78,14 +77,6 @@ public class Author {
     public Author() {
     }
 
-    public Author(int id, String name, String email, int age, String country, List<Book> booksWritten) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.age = age;
-        this.country = country;
-        this.booksWritten = booksWritten;
-    }
 
     public Author(String name, String email, int age, String country) {
         this.name = name;

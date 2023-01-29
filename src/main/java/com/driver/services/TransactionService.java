@@ -97,22 +97,27 @@ public class TransactionService {
         List<Transaction> transactions = transactionRepository5.find(cardId, bookId,TransactionStatus.SUCCESSFUL, true);
 
         Transaction transaction = transactions.get(transactions.size() - 1);
+        int fine =0;
 
-        Date issueDate = transaction.getTransactionDate();
+        Date transactionDate=transaction.getTransactionDate();
 
-        long timeIssuetime = Math.abs(System.currentTimeMillis() - issueDate.getTime());
+        long issueTime=Math.abs(System.currentTimeMillis()-transactionDate.getTime());
+        long no_of_days= TimeUnit.DAYS.convert(issueTime,TimeUnit.MILLISECONDS);
 
-        long no_of_days_passed = TimeUnit.DAYS.convert(timeIssuetime, TimeUnit.MILLISECONDS);
-
-        int fine = 0;
-        if(no_of_days_passed > getMax_allowed_days){
-            fine = (int)((no_of_days_passed - getMax_allowed_days) * fine_per_day);
+        if(no_of_days > getMax_allowed_days){
+            fine = (int)((no_of_days - getMax_allowed_days) * fine_per_day);
         }
 
         Book book = transaction.getBook();
-
-        book.setAvailable(true);
         book.setCard(null);
+        book.setAvailable(true);
+
+        Card card1=cardRepository5.findById(cardId).get();
+        List<Book> bookList=card1.getBooks();
+
+        bookList.remove(book);
+
+        cardRepository5.save(card1);
 
         bookRepository5.updateBook(book);
 

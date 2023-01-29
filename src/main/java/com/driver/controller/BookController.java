@@ -20,8 +20,6 @@ public class BookController {
 
     @Autowired
     BookService bookService;
-    @Autowired
-    private BookRepository bookRepository;
 
     @PostMapping("/createBook")
     public ResponseEntity<String> createBook(@RequestBody()Book book){

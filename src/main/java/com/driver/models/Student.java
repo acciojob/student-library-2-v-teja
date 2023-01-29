@@ -25,6 +25,8 @@ public class Student {
 
     // alter table student add foreign key constraint card references Card(id)
 
+    public Student() {
+    }
     @OneToOne
     @JoinColumn   // join this column to the primary key of Card table
     @JsonIgnoreProperties("student")
@@ -119,9 +121,6 @@ public class Student {
         this.name = name;
         this.age = age;
         this.country = country;
-    }
-
-    public Student() {
     }
 
 

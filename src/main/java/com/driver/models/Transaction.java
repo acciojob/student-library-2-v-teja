@@ -13,6 +13,7 @@ import java.util.UUID;
 @Entity
 public class Transaction {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -39,7 +40,6 @@ public class Transaction {
 
     @CreationTimestamp
     private Date transactionDate;
-
 
     public int getId() {
         return id;
@@ -103,10 +103,6 @@ public class Transaction {
 
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
-    }
-
-    public Transaction(){
-
     }
 
 }
