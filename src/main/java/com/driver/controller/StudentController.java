@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 //Add required annotations
-@RestController
+@RestController("/student")
 public class StudentController {
 
     //Add required annotations
@@ -18,60 +18,39 @@ public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
 
-    @GetMapping("/student/studentByEmail/")
+    @GetMapping("/studentByEmail/")
     public ResponseEntity getStudentByEmail(@RequestParam("email") String email){
-        try{
-            studentService.getDetailsByEmail(email);
-        }catch (Exception e){
-            System.out.println(e);
-        }
+        Student student = studentService.getDetailsByEmail(email);
         return new ResponseEntity<>("Student details printed successfully ", HttpStatus.OK);
     }
 
     //Add required annotations
-    @GetMapping("/student/studentById/")
+    @GetMapping("/studentById/")
     public ResponseEntity getStudentById(@RequestParam("id") int id){
-        try{
-            studentService.getDetailsById(id);
-        }catch (Exception e){
-            System.out.println(e);
-        }
+        Student student = studentService.getDetailsById(id);
 
         return new ResponseEntity<>("Student details printed successfully ", HttpStatus.OK);
     }
 
     //Add required annotations
-    @PostMapping("/student/")
+    @PostMapping("/createStudent/")
     public ResponseEntity createStudent(@RequestBody Student student){
-        try{
-            studentService.createStudent(student);
-        }catch (Exception e){
-            System.out.println(e);
-        }
+       studentService.createStudent(student);
 
         return new ResponseEntity<>("the student is successfully added to the system", HttpStatus.CREATED);
     }
 
     //Add required annotations
-    @PutMapping("/student/")
+    @PutMapping()
     public ResponseEntity updateStudent(@RequestBody Student student){
-        try{
-            studentService.updateStudent(student);
-        }catch (Exception e){
-            System.out.println(e);
-        }
-
+        studentService.updateStudent(student);
         return new ResponseEntity<>("student is updated", HttpStatus.ACCEPTED);
     }
 
     //Add required annotations
     @DeleteMapping("/student/")
     public ResponseEntity deleteStudent(@RequestParam("id") int id){
-        try{
-            studentService.deleteStudent(id);
-        }catch(Exception e){
-            System.out.println(e);
-        }
+        studentService.deleteStudent(id);
 
         return new ResponseEntity<>("student is deleted", HttpStatus.ACCEPTED);
     }

@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 //Add required annotations
-@RestController
+@RestController("/transaction")
 @Slf4j
 public class TransactionController {
 
@@ -17,10 +17,10 @@ public class TransactionController {
     @Autowired
     TransactionService transactionService;
 
-    @PostMapping("/transaction/issueBook")
+    @PostMapping("/issueBook")
     public ResponseEntity issueBook(@RequestParam("cardId") int cardId, @RequestParam("bookId") int bookId) throws Exception{
         try{
-            transactionService.issueBook(cardId,bookId);
+            String  transactionId =  transactionService.issueBook(cardId,bookId);
         }catch (Exception e){
             log.info("issueBook failed");
             System.out.println(e);
@@ -33,12 +33,7 @@ public class TransactionController {
 
     @PostMapping("/transaction/returnBook")
     public ResponseEntity returnBook(@RequestParam("cardId") int cardId, @RequestParam("bookId") int bookId) throws Exception{
-
-        try{
             transactionService.returnBook(cardId, bookId);
-        }catch (Exception e){
-            System.out.println(e);
-        }
         return new ResponseEntity<>("transaction completed", HttpStatus.ACCEPTED);
     }
 }

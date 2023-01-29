@@ -45,12 +45,10 @@ public class TransactionService {
         //If the transaction is successful, save the transaction to the list of transactions and return the id
 
         //Note that the error message should match exactly in all cases
-        Transaction transaction;
-        try {
             Book book = bookRepository5.findById(bookId).get();
             Card card = cardRepository5.findById(cardId).get();
 
-            transaction = new Transaction();
+            Transaction transaction = new Transaction();
 
             transaction.setBook(book);
             transaction.setCard(card);
@@ -78,12 +76,12 @@ public class TransactionService {
 
             book.setCard(card);
             book.setAvailable(false);
+
             List<Book> bookList = card.getBooks();
             bookList.add(book);
             card.setBooks(bookList);
 
             cardRepository5.save(card);
-
             bookRepository5.updateBook(book);
 
             transaction.setTransactionStatus(TransactionStatus.SUCCESSFUL);
@@ -92,9 +90,6 @@ public class TransactionService {
 
             return transaction.getTransactionId();
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public Transaction returnBook(int cardId, int bookId) throws Exception{

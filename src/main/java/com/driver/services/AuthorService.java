@@ -16,17 +16,6 @@ public class AuthorService {
 
     public void create(Author author){
 
-    }
-
-    public String createAuthor(Author author) {
-
-        try{
-           // Author author = AuthorConverter.convertDtoToAuthor(authorRequestDto);
-            authorRepository.save(author);
-        }catch (Exception e){
-            log.info("createAuthor has caused an error");
-            return "Author creation failed";
-        }
-        return "Author Created";
+        authorRepository.save(author);
     }
 }
