@@ -18,7 +18,7 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne(mappedBy = "card", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "card", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnoreProperties("card")
     private Student student;
 
@@ -31,9 +31,9 @@ public class Card {
     @Enumerated(value = EnumType.STRING)
     private CardStatus cardStatus;
 
-    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnoreProperties("card")
-    private List<Book> books = new ArrayList<>();
+    private List<Book> books ;
 
     public int getId() {
         return id;
@@ -86,7 +86,6 @@ public class Card {
     public Card(){
 
         this.cardStatus = CardStatus.ACTIVATED;
-        this.books = new ArrayList<>();
     }
 
     public Card(int id, Student student, Date createdOn, Date updatedOn, CardStatus cardStatus, List<Book> books) {

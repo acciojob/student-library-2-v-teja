@@ -109,11 +109,5 @@ public class Transaction {
 
     }
 
-    public Transaction(Card card, Book book, boolean i) {
-        this.setCard(card);
-        this.setBook(book);
-        this.setIssueOperation(i);
-        this.setTransactionStatus(TransactionStatus.SUCCESSFUL);
-    }
 }
 

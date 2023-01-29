@@ -16,50 +16,31 @@ public class StudentService {
 
     @Autowired
     StudentRepository studentRepository4;
-    @Autowired
-    private CardRepository cardRepository;
+
 
     public Student getDetailsByEmail(String email){
-        Student student = null;
-        student = studentRepository4.findByEmailId(email);
-        return student;
+
+        return studentRepository4.findByEmailId(email);
+
     }
 
     public Student getDetailsById(int id){
-        Student student = null;
-        student = studentRepository4.findById(id).get();
-        return student;
+
+      return studentRepository4.findById(id).get();
+
     }
 
     public void createStudent(Student student){
-        try{
-            Card card = cardService4.createAndReturn(student);
-            cardRepository.save(card);
-            //it should save student automatically bcz card is the parent .
-        }catch (Exception e){
-            System.out.println(e);
-        }
+       Card newCard = cardService4.createAndReturn(student);
     }
 
     public void updateStudent(Student student){
-        try{
-            int cardId = student.getCard().getId();
-            Card card = cardService4.updateCard(cardId,student);
-            cardRepository.save(card);
-            //since card is parent it should automatically change the student table
-        }catch(Exception e){
-            System.out.println(e);
-        }
-
+        studentRepository4.updateStudentDetails(student);
     }
 
     public void deleteStudent(int id){
         //Delete student and deactivate corresponding card
-        try{
-            studentRepository4.deleteById(id);
-            cardService4.deactivateCard(id);
-        }catch(Exception e){
-            System.out.println(e);
-        }
+        cardService4.deactivateCard(id);
+        studentRepository4.deleteCustom(id);
     }
 }

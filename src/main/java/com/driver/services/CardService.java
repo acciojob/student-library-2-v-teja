@@ -18,8 +18,10 @@ public class CardService {
         Card card = null;
         //link student with a new card
         card = new Card();
-        card.setCardStatus(CardStatus.ACTIVATED);
         card.setStudent(student);
+        student.setCard(card);
+
+        cardRepository3.save(card);
         return card;
     }
 
@@ -27,9 +29,5 @@ public class CardService {
         cardRepository3.deactivateCard(student_id, CardStatus.DEACTIVATED.toString());
     }
 
-    public Card updateCard(int cardId,Student student) {
-        Card card = cardRepository3.findById(cardId).get();
-        card.setStudent(student);
-        return card;
-    }
+
 }

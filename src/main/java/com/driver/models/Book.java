@@ -35,9 +35,9 @@ public class Book {
     @Column(columnDefinition = "TINYINT(1)")
     private boolean available;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnoreProperties("book")
-    private List<Transaction> transactions = new ArrayList<>();
+    private List<Transaction> transactions;
 
     public int getId() {
         return id;
@@ -121,7 +121,7 @@ public class Book {
         this.name = name;
         this.genre = genre;
         this.author = author;
-        this.transactions = new ArrayList<>();
+        this.available= true;
     }
 }
 

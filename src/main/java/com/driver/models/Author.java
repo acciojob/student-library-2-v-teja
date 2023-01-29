@@ -24,10 +24,9 @@ public class Author {
     private int age;
     private String country;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnoreProperties("author")
-    private List<Book> booksWritten = new ArrayList<>();
-
+    private List<Book> booksWritten;
     public int getId() {
         return id;
     }
@@ -93,7 +92,6 @@ public class Author {
         this.email = email;
         this.age = age;
         this.country = country;
-        this.booksWritten = new ArrayList<>();
     }
 }
 

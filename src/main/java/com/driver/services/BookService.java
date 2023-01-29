@@ -15,18 +15,11 @@ import java.util.List;
 @Slf4j
 public class BookService {
     @Autowired
-    private AuthorRepository authorRepository;
-
-
-    @Autowired
     BookRepository bookRepository;
-
-    @Autowired
-    CardRepository cardRepository;
-
 
 
     public void createBook(Book book){
+
         bookRepository.save(book);
     }
 
@@ -41,8 +34,5 @@ public class BookService {
             return bookRepository.findByAvailability(available);
         }
     }
-
-
-
 
 }
