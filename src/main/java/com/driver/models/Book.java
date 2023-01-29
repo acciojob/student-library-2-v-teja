@@ -121,6 +121,7 @@ public class Book {
         this.name = name;
         this.genre = genre;
         this.author = author;
+        this.transactions = new ArrayList<>();
     }
 }
 

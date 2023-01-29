@@ -24,29 +24,25 @@ public class BookService {
     @Autowired
     CardRepository cardRepository;
 
-    public String create(Book book) {
 
-        //Author is parent - so adding book to author booklist and saving it
-        Author author = book.getAuthor();
-
-        List<Book> bookList = author.getBooksWritten();
-        bookList.add(book);
-        author.setBooksWritten(bookList);
-
-        authorRepository.save(author);
-        bookRepository.save(book);
-
-        return "Book saved sucessfully";
-    }
 
     public void createBook(Book book){
         bookRepository.save(book);
     }
 
     public List<Book> getBooks(String genre, boolean available, String author){
-        List<Book> books = null; //find the elements of the list by yourself
-        books = bookRepository.findBooksByGenreAuthor(genre,author,available);
-
-        return books;
+        if(genre != null && author != null){
+            return bookRepository.findBooksByGenreAuthor(genre, author, available);
+        }else if(genre != null){
+            return bookRepository.findBooksByGenre(genre, available);
+        }else if(author != null){
+            return bookRepository.findBooksByAuthor(author, available);
+        }else{
+            return bookRepository.findByAvailability(available);
+        }
     }
+
+
+
+
 }

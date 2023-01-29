@@ -84,7 +84,9 @@ public class Card {
     }
 
     public Card(){
+
         this.cardStatus = CardStatus.ACTIVATED;
+        this.books = new ArrayList<>();
     }
 
     public Card(int id, Student student, Date createdOn, Date updatedOn, CardStatus cardStatus, List<Book> books) {

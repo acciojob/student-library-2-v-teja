@@ -23,14 +23,13 @@ public class BookController {
     @PostMapping("/book/")
     public ResponseEntity<String> createBook(@RequestBody()Book book){
 
-        String res = null;
         try {
-            res = bookService.create(book);
+            bookService.createBook(book);
         } catch (Exception e) {
             System.out.println(e);
         }
 
-        return new ResponseEntity<>(res, HttpStatus.CREATED);
+        return new ResponseEntity<>("Created", HttpStatus.CREATED);
     }
 
     //Add required annotations
