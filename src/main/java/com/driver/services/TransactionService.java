@@ -76,19 +76,21 @@ public class TransactionService {
             }
             //condition 4
             Book book = bookRepository5.findById(bookId).get();
-            transaction = new Transaction(card, book, true);
+            transaction = new Transaction();
+            transaction.setBook(book);
+            transaction.setCard(card);
 
             List<Transaction> currTransactionList = book.getTransactions();
             currTransactionList.add(transaction);
             book.setTransactions(currTransactionList);
-            //book is parent so transaction should automatically save
+            //bookRepository5.save(book);
 
             List<Book> currList = card.getBooks();
             currList.add(book);
             card.setBooks(currList);
             cardRepository5.save(card);
             //card is parent to book so book is automatically saved
-
+            //card and book are parent to transaction so it should also save
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -106,7 +108,34 @@ public class TransactionService {
         //make the book available for other users
         //make a new transaction for return book which contains the fine amount as well
 
-        Transaction returnBookTransaction  = null;
+
+        Transaction returnBookTransaction  = new Transaction();
+        long d1 = transaction.getTransactionDate().getTime();
+        long d2 = returnBookTransaction.getTransactionDate().getTime();
+        long diff = Math.abs(d1-d2);
+        long diffInDays = diff/(60*60*1000*24) ;
+
+        int fine = (int)diffInDays*5;
+        returnBookTransaction.setFineAmount(fine);
+        returnBookTransaction.setBook(transaction.getBook());
+        returnBookTransaction.setCard(transaction.getCard());
+        returnBookTransaction.setTransactionStatus(TransactionStatus.SUCCESSFUL);
+
+        Book book = transaction.getBook();
+        Card card = transaction.getCard();
+
+        List<Transaction> currTransactionList = book.getTransactions();
+        currTransactionList.add(returnBookTransaction);
+        book.setTransactions(currTransactionList);
+        //bookRepository5.save(book);
+
+        List<Book> currList = card.getBooks();
+        currList.add(book);
+        card.setBooks(currList);
+        cardRepository5.save(card);
+        //card is parent to book so book is automatically saved
+        //card and book are parent to transaction so it should also save
+
         return returnBookTransaction; //return the transaction after updating all details
     }
 }

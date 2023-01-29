@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class AuthorRequestDto {
 
     private String name;
@@ -21,4 +19,15 @@ public class AuthorRequestDto {
 
     private int age;
     private String country;
+
+    public AuthorRequestDto(){
+
+    }
+
+    public AuthorRequestDto(String name, String email, int age, String country) {
+        this.name = name;
+        this.email = email;
+        this.age = age;
+        this.country = country;
+    }
 }

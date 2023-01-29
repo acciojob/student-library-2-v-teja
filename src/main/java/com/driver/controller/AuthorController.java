@@ -1,6 +1,7 @@
 package com.driver.controller;
 
 import com.driver.RequestDto.AuthorRequestDto;
+import com.driver.models.Author;
 import com.driver.repositories.AuthorRepository;
 import com.driver.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,11 @@ public class AuthorController {
     AuthorService authorService;
 
     @PostMapping("/author")
-    public ResponseEntity<String> createAuthor(@RequestBody()AuthorRequestDto authorRequestDto) {
+    public ResponseEntity<String> createAuthor(@RequestBody() Author author) {
 
         String res = null;
         try {
-            res = authorService.createAuthor(authorRequestDto);
+            res = authorService.createAuthor(author);
         } catch (Exception e) {
             System.out.println(e);
         }

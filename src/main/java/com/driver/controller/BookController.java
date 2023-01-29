@@ -21,11 +21,11 @@ public class BookController {
     BookService bookService;
 
     @PostMapping("/book/")
-    public ResponseEntity<String> createBook(@RequestBody()BookRequestDto bookRequestDto){
+    public ResponseEntity<String> createBook(@RequestBody()Book book){
 
         String res = null;
         try {
-            res = bookService.create(bookRequestDto);
+            res = bookService.create(book);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -34,6 +34,7 @@ public class BookController {
     }
 
     //Add required annotations
+    @GetMapping("/getBooks")
     public ResponseEntity getBooks(@RequestParam(value = "genre", required = false) String genre,
                                    @RequestParam(value = "available", required = false, defaultValue = "false") boolean available,
                                    @RequestParam(value = "author", required = false) String author){
